@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maven.namesilo7005.mapper.TbDomainMapper">
+
+    <resultMap id="pageDetailsMap" type="com.maven.namesilo7005.vo.TbDomainVo">
+        <id column="id" property="id"></id>
+        <result column="domain" property="domain"></result>
+    </resultMap>
+    <select id="pageDetails" resultMap="pageDetailsMap">
+         select id,tb_domain.domain  as domain from  tb_domain
+    </select>
+
+    <insert id="test" parameterType="java.util.List">
+        insert into tb_domain
+        (domain,available,premium,current_price,regular_price,renewal_price,added_to_cart,auction_type,auction_url,minimum_bid,up_time)
+        values
+        <foreach collection="domains" item="domain" open="(" separator="," close=")">
+            #{domain.domain},#{domain.available},#{domain.premium},#{domain.currentPrice},#{domain.regularPrice},
+            #{domain.renewalPrice},#{domain.addedToCart},#{domain.auctionType},#{domain.auctionUrl},#{domain.minimumBid},#{domain.upTime}
+        </foreach>
+    </insert>
+
+    <insert id="add">
+        insert into tb_domain
+        (domain,available,premium,current_price,regular_price,renewal_price,added_to_cart,auction_type,auction_url,minimum_bid,up_time)
+        value(
+             #{tbDomain.domain},#{tbDomain.available},#{tbDomain.premium},#{tbDomain.currentPrice},#{tbDomain.regularPrice},
+            #{tbDomain.renewalPrice},#{tbDomain.addedToCart},#{tbDomain.auctionType},#{tbDomain.auctionUrl},#{tbDomain.minimumBid},#{tbDomain.upTime}
+        )
+        on duplicate key update
+        available = #{tbDomain.available},premium = #{tbDomain.premium},current_price = #{tbDomain.currentPrice},regular_price = #{tbDomain.regularPrice},
+        renewal_price=#{tbDomain.renewalPrice},added_to_cart=#{tbDomain.addedToCart},auction_type=#{tbDomain.auctionType},auction_url=#{tbDomain.auctionUrl},minimum_bid=#{tbDomain.minimumBid},up_time=#{tbDomain.upTime};
+    </insert>
+
+    <insert id="addList">
+        insert into tb_domain
+        (domain,available,premium,current_price,regular_price,renewal_price,added_to_cart,auction_type,auction_url,minimum_bid,up_time)
+        values
+        <foreach collection="tbDomains" item="tbDomain" index="index" open="(" separator="," close=")">
+            #{tbDomain.domain},#{tbDomain.available},#{tbDomain.premium},#{tbDomain.currentPrice},#{tbDomain.regularPrice},
+            #{tbDomain.renewalPrice},#{tbDomain.addedToCart},#{tbDomain.auctionType},#{tbDomain.auctionUrl},#{tbDomain.minimumBid},#{tbDomain.upTime}
+        </foreach>
+        on duplicate key update
+        available = #{tbDomain.available},premium = #{tbDomain.premium},current_price = #{tbDomain.currentPrice},regular_price = #{tbDomain.regularPrice},
+        renewal_price=#{tbDomain.renewalPrice},added_to_cart=#{tbDomain.addedToCart},auction_type=#{tbDomain.auctionType},auction_url=#{tbDomain.auctionUrl},minimum_bid=#{tbDomain.minimumBid},up_time=#{tbDomain.upTime};
+    </insert>
+</mapper>
